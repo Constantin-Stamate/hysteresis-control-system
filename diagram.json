@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "author": "Constantin Stamate",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-mega", "id": "mega", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": -110, "left": 20, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -190,
+      "left": 190,
+      "attrs": { "pins": "i2c" }
+    },
+    { "type": "wokwi-led", "id": "led1", "top": -150, "left": 520, "attrs": { "color": "red" } },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -75,
+      "left": 500,
+      "rotate": 90,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnUp",
+      "top": 20,
+      "left": 600,
+      "attrs": { "color": "red", "label": "UP" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnDown",
+      "top": 100,
+      "left": 600,
+      "attrs": { "color": "red", "label": "DOWN" }
+    },
+    {
+      "type": "wokwi-ntc-temperature-sensor",
+      "id": "ntc1",
+      "top": 280,
+      "left": 330,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "lcd1:GND", "mega:GND.1", "black", ["h-20", "v200"] ],
+    [ "lcd1:VCC", "mega:5V", "red", ["h-30", "v210"] ],
+    [ "lcd1:SDA", "mega:20", "blue", ["h-10", "v120"] ],
+    [ "lcd1:SCL", "mega:21", "green", ["h-5", "v130"] ],
+    [ "relay1:VCC", "mega:5V", "red", ["h-20", "v230"] ],
+    [ "relay1:GND", "mega:GND.1", "black", ["h-30", "v240"] ],
+    [ "relay1:IN", "mega:8", "orange", ["v40", "h50"] ],
+    [ "r1:2", "mega:9", "red", ["h0", "v60"] ],
+    [ "r1:1", "led1:A", "red", ["v-10"] ],
+    [ "led1:C", "mega:GND.2", "black", ["v10", "h30", "v200"] ],
+    [ "btnUp:1.l", "mega:2", "green", ["h-40", "v-10"] ],
+    [ "btnUp:2.l", "mega:GND.2", "black", ["h-30"] ],
+    [ "btnDown:1.l", "mega:3", "green", ["h-50", "v-90"] ],
+    [ "btnDown:2.l", "mega:GND.2", "black", ["h-30"] ],
+    [ "ntc1:VCC", "mega:5V", "red", ["h-20", "v-100"] ],
+    [ "ntc1:GND", "mega:GND.3", "black", ["h-30", "v-110"] ],
+    [ "ntc1:OUT", "mega:A0", "green", ["h-10", "v-90"] ]
+  ],
+  "dependencies": {}
+}
