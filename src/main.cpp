@@ -1,18 +1,48 @@
 #include <Arduino.h>
+#include "sensor/sensor.h"
+#include "control/control.h"
+#include "ui_lcd/ui_lcd.h"
+#include "buttons/buttons.h"
 
-// put function declarations here:
-int myFunction(int, int);
+unsigned long lastTempRead = 0;
+unsigned long lastLcdUpdate = 0;
+unsigned long lastSerial = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    initPins();
+    lcdInit();
+    sensorInit();
+    buttonsInit();
+
+    Serial.begin(9600);
+
+    lcdWelcome();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+    unsigned long now = millis();
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    handleButtons(now);
+
+    if (now - lastTempRead >= 100) {
+        lastTempRead = now;
+
+        readTemperature();
+        controlLoop();
+    }
+
+    if (now - lastLcdUpdate >= 150) {
+        lastLcdUpdate = now;
+
+        lcdUpdate(temperature, setPoint);
+    }
+
+    if (now - lastSerial >= 500) {
+        lastSerial = now;
+
+        Serial.print("Temperature:");
+        Serial.print(temperature);
+        Serial.print(", SetPoint:");
+        Serial.println(setPoint);
+    }
 }
